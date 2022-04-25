@@ -13,17 +13,50 @@ vector<double> jeden;
 
 int wybor;
 double liczba;
-string mA = "A", mB = "B", wierszy = "wierszy", kolumn = "kolumn";
+string mA = "A", mB = "B", wierszy_str = "wierszy", kolumn_str = "kolumn";
 double wA = 0, kA = 0, wB = 0, kB = 0, wC = 0, kC = 0;
 
-void wielkoscMacierzy(int liczba_wierszy, string wier_kol, string mA_mB)
+void wielkoscMacierzy(int liczba_w_k, string wier_kol, string mA_mB)
 {
-  while (liczba_wierszy < 2 || liczba_wierszy > 10)
+  while (liczba_w_k < 2 || liczba_w_k > 10)
   {
+    cout << "------------------------------------" << endl;
     cout << "Podałes nieprawidlowa liczbe " + wier_kol + " macierzy " + mA_mB + "!" << endl;
     cout << "Podaj liczbe " + wier_kol + " macierzy " + mA_mB + " od 2 do 10: ";
-    cin >> liczba_wierszy;
+    cin >> liczba_w_k;
   }
+}
+
+void rozmiar_macierzy_A_B(string mA_mB)
+{
+  cout << "Podaj liczbe wierszy macierzy " + mA_mB + " od 2 do 10: ";
+  if (mA_mB == mA)
+  {
+    cin >> wA;
+    wielkoscMacierzy(wA, wierszy_str, mA);
+  }
+  else if (mA_mB == mB)
+  {
+    cin >> wB;
+    wielkoscMacierzy(wB, wierszy_str, mB);
+  }
+  cout << "Podaj liczbe kolumn macierzy " + mA_mB + " od 2 do 10: ";
+  if (mA_mB == mA)
+  {
+    cin >> kA;
+    wielkoscMacierzy(kA, kolumn_str, mA);
+  }
+  else if (mA_mB == mB)
+  {
+    cin >> kB;
+    wielkoscMacierzy(kB, kolumn_str, mB);
+  }
+}
+
+void rozmiar_macierzy()
+{
+  rozmiar_macierzy_A_B(mA);
+  rozmiar_macierzy_A_B(mB);
 }
 
 int main(void)
@@ -52,18 +85,7 @@ int main(void)
     switch (wybor)
     {
     case 1:
-      cout << "Podaj liczbe wierszy macierzy A od 2 do 10: ";
-      cin >> wA;
-      wielkoscMacierzy(wA, wierszy, mA);
-      cout << "Podaj liczbe kolumn macierzy A od 2 do 10: ";
-      cin >> kA;
-      wielkoscMacierzy(kA, kolumn, mA);
-      cout << "Podaj liczbe wierszy macierzy B od 2 do 10: ";
-      cin >> wB;
-      wielkoscMacierzy(wB, wierszy, mB);
-      cout << "Podaj liczbe kolumn macierzy A od 2 do 10: ";
-      cin >> kB;
-      wielkoscMacierzy(kB, kolumn, mB);
+      rozmiar_macierzy();
       break;
 
     default:
