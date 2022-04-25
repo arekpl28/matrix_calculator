@@ -16,6 +16,33 @@ double liczba;
 string mA = "A", mB = "B", wierszy_str = "wierszy", kolumn_str = "kolumn";
 double wA = 0, kA = 0, wB = 0, kB = 0, wC = 0, kC = 0;
 
+void menu()
+{
+
+  cout << " ________________  MENU  ________________ " << endl
+       << "|                                        |"
+       << endl;
+  cout << "|  1 - Dodawanie macierzy                |" << endl;
+  cout << "|  2 - Odejmowanie macierzy              |" << endl;
+  cout << "|  3 - Mnozenie macierzy                 |" << endl;
+  cout << "|  4 - Mnozenie macierzy przez liczbę    |" << endl
+       << "|                                        |"
+       << endl;
+  cout << "|  0 - Zakoncz program                   |" << endl
+       << "|________________________________________|"
+       << endl
+       << endl;
+  cout << "Wybierz rodzaj dzialania: ";
+  cin >> wybor;
+  cout << endl;
+  if (wybor < 0 || wybor > 4)
+  {
+    cout << "Brak podanego działania! Prosze wybrac inny:  ";
+    cin >> wybor;
+    cout << endl;
+  }
+}
+
 void wielkoscMacierzy(int liczba_w_k, string wier_kol, string mA_mB)
 {
   while (liczba_w_k < 2 || liczba_w_k > 10)
@@ -66,22 +93,11 @@ int main(void)
   cout << "*****************************************" << endl;
   cout << "*          KALKULATOR MACIERZY          *" << endl;
   cout << "*****************************************" << endl;
+  cout << endl;
+
   do
   {
-    cout << endl;
-    cout << "-----------------  MENU  ----------------" << endl
-         << endl;
-    cout << "Wybierz rodzaj dzialania" << endl;
-    cout << "1 - Dodawanie macierzy" << endl;
-    cout << "2 - Odejmowanie macierzy" << endl;
-    cout << "3 - Mnozenie macierzy" << endl;
-    cout << "4 - Mnozenie macierzy przez liczbę" << endl
-         << endl;
-    cout << "0 - Zakoncz program" << endl
-         << endl;
-
-    ///////////////////////////////////////////////////////////////
-    cin >> wybor;
+    menu();
     switch (wybor)
     {
     case 1:
