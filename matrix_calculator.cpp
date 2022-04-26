@@ -8,13 +8,13 @@ using namespace std;
 
 #define SMAX 10
 
-vector<vector<double>> macierzA;
-vector<double> jeden;
+vector<vector<int>> macierzA;
+vector<vector<int>> macierzB;
+vector<vector<int>> macierzC;
 
 int wybor;
-double liczba;
 string mA = "A", mB = "B", wierszy_str = "wierszy", kolumn_str = "kolumn";
-double wA = 0, kA = 0, wB = 0, kB = 0, wC = 0, kC = 0;
+int wA = 0, kA = 0, wB = 0, kB = 0, wC = 0, kC = 0;
 
 void menu()
 {
@@ -43,47 +43,107 @@ void menu()
   }
 }
 
-void wielkoscMacierzy(int liczba_w_k, string wier_kol, string mA_mB)
+void wielkoscMacierzy(int liczba_w_k, string wier_kol)
 {
   while (liczba_w_k < 2 || liczba_w_k > 10)
   {
     cout << "------------------------------------" << endl;
-    cout << "Podałes nieprawidlowa liczbe " + wier_kol + " macierzy " + mA_mB + "!" << endl;
-    cout << "Podaj liczbe " + wier_kol + " macierzy " + mA_mB + " od 2 do 10: ";
+    cout << "Podałes nieprawidlowa liczbe " + wier_kol + "!" << endl;
+    cout << "Podaj liczbe " + wier_kol + " macierzy od 2 do 10: ";
     cin >> liczba_w_k;
+    wA = liczba_w_k;
+    wB = liczba_w_k;
   }
 }
 
-void rozmiar_macierzy_A_B(string mA_mB)
+void rozmiar_macierzy_A_B()
 {
-  cout << "Podaj liczbe wierszy macierzy " + mA_mB + " od 2 do 10: ";
-  if (mA_mB == mA)
+  cout << "Podaj liczbe wierszy macierzy A i B od 2 do 10: ";
+  cin >> wA;
+  wB = wA;
+  wielkoscMacierzy(wA, wierszy_str);
+  cout << "Podaj liczbe kolumn macierzy A i B od 2 do 10: ";
+  cin >> kA;
+  kB = kA;
+  wielkoscMacierzy(kA, kolumn_str);
+}
+
+void rozmiar_macierzy(int wybor_dzialanie)
+{
+  if (wybor_dzialanie == 1 || wybor_dzialanie == 2)
   {
-    cin >> wA;
-    wielkoscMacierzy(wA, wierszy_str, mA);
-  }
-  else if (mA_mB == mB)
-  {
-    cin >> wB;
-    wielkoscMacierzy(wB, wierszy_str, mB);
-  }
-  cout << "Podaj liczbe kolumn macierzy " + mA_mB + " od 2 do 10: ";
-  if (mA_mB == mA)
-  {
-    cin >> kA;
-    wielkoscMacierzy(kA, kolumn_str, mA);
-  }
-  else if (mA_mB == mB)
-  {
-    cin >> kB;
-    wielkoscMacierzy(kB, kolumn_str, mB);
+    rozmiar_macierzy_A_B();
   }
 }
 
-void rozmiar_macierzy()
+void uzupelnianie_macierzy(vector<vector<int>> &vec, int liczba_wierszy, int liczba_kolumn)
 {
-  rozmiar_macierzy_A_B(mA);
-  rozmiar_macierzy_A_B(mB);
+  cout << "Uzupełnij macierz liczbami: " << endl;
+  vector<int> temp;
+  temp.clear();
+  vec.clear();
+  for (int i = 0; i < liczba_wierszy; i++)
+  {
+    int liczba;
+    for (int j = 0; j < liczba_kolumn; j++)
+    {
+      cin >> liczba;
+      temp.push_back(liczba);
+    }
+    vec.push_back(temp);
+    temp.clear();
+  }
+}
+
+void wyswietlanie_macierzy(vector<vector<int>> &vec)
+{
+  for (int i = 0; i < vec.size(); i++)
+  {
+    for (int j = 0; j < vec[i].size(); j++)
+    {
+      cout << vec[i][j] << " ";
+    }
+    cout << endl;
+  }
+}
+
+void dodawanie(vector<vector<int>> &vec_A, vector<vector<int>> &vec_B, int liczba_wierszy, int liczba_kolumn)
+{
+  cout << "Suma macierzy: " << endl;
+  int suma = 0;
+  vector<int> temp;
+  macierzC.clear();
+  temp.clear();
+  for (int i = 0; i < liczba_wierszy; i++)
+  {
+    for (int j = 0; j < liczba_kolumn; j++)
+    {
+      suma = vec_A[i][j] + vec_B[i][j];
+
+      temp.push_back(suma);
+    }
+    macierzC.push_back(temp);
+    temp.clear();
+  }
+}
+void odejmowanie(vector<vector<int>> &vec_A, vector<vector<int>> &vec_B, int liczba_wierszy, int liczba_kolumn)
+{
+  cout << "Roznica macierzy: " << endl;
+  int suma = 0;
+  vector<int> temp;
+  macierzC.clear();
+  temp.clear();
+  for (int i = 0; i < liczba_wierszy; i++)
+  {
+    for (int j = 0; j < liczba_kolumn; j++)
+    {
+      suma = vec_A[i][j] - vec_B[i][j];
+
+      temp.push_back(suma);
+    }
+    macierzC.push_back(temp);
+    temp.clear();
+  }
 }
 
 int main(void)
@@ -101,7 +161,22 @@ int main(void)
     switch (wybor)
     {
     case 1:
-      rozmiar_macierzy();
+      rozmiar_macierzy(wybor);
+      uzupelnianie_macierzy(macierzA, wA, kA);
+      wyswietlanie_macierzy(macierzA);
+      uzupelnianie_macierzy(macierzB, wB, kB);
+      wyswietlanie_macierzy(macierzB);
+      dodawanie(macierzA, macierzB, wA, kA);
+      wyswietlanie_macierzy(macierzC);
+      break;
+    case 2:
+      rozmiar_macierzy(wybor);
+      uzupelnianie_macierzy(macierzA, wA, kA);
+      wyswietlanie_macierzy(macierzA);
+      uzupelnianie_macierzy(macierzB, wB, kB);
+      wyswietlanie_macierzy(macierzB);
+      odejmowanie(macierzA, macierzB, wA, kA);
+      wyswietlanie_macierzy(macierzC);
       break;
 
     default:
