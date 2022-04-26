@@ -56,23 +56,43 @@ void wielkoscMacierzy(int liczba_w_k, string wier_kol)
   }
 }
 
-void rozmiar_macierzy_A_B()
+void rozmiar_macierzy_A_B(int &wybor)
 {
-  cout << "Podaj liczbe wierszy macierzy A i B od 2 do 10: ";
-  cin >> wA;
-  wB = wA;
-  wielkoscMacierzy(wA, wierszy_str);
-  cout << "Podaj liczbe kolumn macierzy A i B od 2 do 10: ";
-  cin >> kA;
-  kB = kA;
-  wielkoscMacierzy(kA, kolumn_str);
+  if (wybor == 1 || wybor == 2)
+  {
+    cout << "Podaj liczbe wierszy macierzy A i B od 2 do 10: ";
+    cin >> wA;
+    wB = wA;
+    wielkoscMacierzy(wA, wierszy_str);
+    cout << "Podaj liczbe kolumn macierzy A i B od 2 do 10: ";
+    cin >> kA;
+    kB = kA;
+    wielkoscMacierzy(kA, kolumn_str);
+  }
+  else if (wybor == 3)
+  {
+    cout << "Podaj liczbe wierszy macierzy A od 2 do 10: ";
+    cin >> wA;
+    wielkoscMacierzy(wA, wierszy_str);
+    cout << "Podaj liczbe kolumn macierzy A oraz wierszy macierzy B od 2 do 10: ";
+    cin >> kA;
+    wB = kA;
+    wielkoscMacierzy(kA, kolumn_str);
+    cout << "Podaj liczbe kolumn macierzy B od 2 do 10: ";
+    cin >> kB;
+    wielkoscMacierzy(kB, kolumn_str);
+  }
 }
 
 void rozmiar_macierzy(int wybor_dzialanie)
 {
   if (wybor_dzialanie == 1 || wybor_dzialanie == 2)
   {
-    rozmiar_macierzy_A_B();
+    rozmiar_macierzy_A_B(wybor);
+  }
+  else if (wybor_dzialanie == 3)
+  {
+    rozmiar_macierzy_A_B(wybor);
   }
 }
 
@@ -145,7 +165,29 @@ void odejmowanie(vector<vector<int>> &vec_A, vector<vector<int>> &vec_B, int lic
     temp.clear();
   }
 }
+void mnozenie_macierzy(vector<vector<int>> &vec_A, vector<vector<int>> &vec_B, int liczba_wierszy, int liczba_kolumn)
+{
+  cout << "Iloczyn macierzy: " << endl;
+  int suma = 0;
+  vector<int> temp;
+  macierzC.clear();
+  temp.clear();
+  for (int i = 0; i < liczba_wierszy; i++)
+  {
+    for (int j = 0; j < liczba_kolumn; j++)
+    {
+      suma = 0;
+      for (int k = 0; k < liczba_kolumn; k++)
+      {
 
+        suma += macierzA[i][k] * macierzB[k][j];
+      }
+      temp.push_back(suma);
+    }
+    macierzC.push_back(temp);
+    temp.clear();
+  }
+}
 int main(void)
 {
   cout << endl
@@ -176,6 +218,15 @@ int main(void)
       uzupelnianie_macierzy(macierzB, wB, kB);
       wyswietlanie_macierzy(macierzB);
       odejmowanie(macierzA, macierzB, wA, kA);
+      wyswietlanie_macierzy(macierzC);
+      break;
+    case 3:
+      rozmiar_macierzy(wybor);
+      uzupelnianie_macierzy(macierzA, wA, kA);
+      wyswietlanie_macierzy(macierzA);
+      uzupelnianie_macierzy(macierzB, wB, kB);
+      wyswietlanie_macierzy(macierzB);
+      mnozenie_macierzy(macierzA, macierzB, wA, kB);
       wyswietlanie_macierzy(macierzC);
       break;
 
