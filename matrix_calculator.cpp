@@ -12,7 +12,7 @@ vector<vector<int>> macierzA;
 vector<vector<int>> macierzB;
 vector<vector<int>> macierzC;
 
-int wybor;
+int wybor, max_liczba_A_B = 0;
 string mA = "A", mB = "B", wierszy_str = "wierszy", kolumn_str = "kolumn";
 int wA = 0, kA = 0, wB = 0, kB = 0, wC = 0, kC = 0;
 
@@ -96,9 +96,9 @@ void rozmiar_macierzy(int wybor_dzialanie)
   }
 }
 
-void uzupelnianie_macierzy(vector<vector<int>> &vec, int liczba_wierszy, int liczba_kolumn)
+void uzupelnianie_macierzy(vector<vector<int>> &vec, int liczba_wierszy, int liczba_kolumn, string nazwa_macierzy)
 {
-  cout << "Uzupełnij macierz liczbami: " << endl;
+  cout << "Uzupełnij macierz " << nazwa_macierzy << " liczbami: " << endl;
   vector<int> temp;
   temp.clear();
   vec.clear();
@@ -108,6 +108,11 @@ void uzupelnianie_macierzy(vector<vector<int>> &vec, int liczba_wierszy, int lic
     for (int j = 0; j < liczba_kolumn; j++)
     {
       cin >> liczba;
+      if (max_liczba_A_B < liczba)
+      {
+        max_liczba_A_B = liczba;
+      }
+
       temp.push_back(liczba);
     }
     vec.push_back(temp);
@@ -117,14 +122,39 @@ void uzupelnianie_macierzy(vector<vector<int>> &vec, int liczba_wierszy, int lic
 
 void wyswietlanie_macierzy(vector<vector<int>> &vec)
 {
+  cout << endl;
   for (int i = 0; i < vec.size(); i++)
   {
     for (int j = 0; j < vec[i].size(); j++)
     {
-      cout << vec[i][j] << " ";
+      if (max_liczba_A_B < 10)
+      {
+        cout << vec[i][j] << "  ";
+      }
+      else if (max_liczba_A_B > 9 && max_liczba_A_B < 100 && vec[i][j] < 10)
+      {
+        cout << vec[i][j] << "   ";
+      }
+      else if (max_liczba_A_B > 9 && max_liczba_A_B < 100 && vec[i][j] > 9)
+      {
+        cout << vec[i][j] << "  ";
+      }
+      else if (max_liczba_A_B > 99 && max_liczba_A_B < 1000 && vec[i][j] < 10)
+      {
+        cout << vec[i][j] << "    ";
+      }
+      else if (max_liczba_A_B > 99 && max_liczba_A_B < 1000 && vec[i][j] > 9 && vec[i][j] < 100)
+      {
+        cout << vec[i][j] << "   ";
+      }
+      else if (max_liczba_A_B > 99 && max_liczba_A_B < 1000 && vec[i][j] > 99 && vec[i][j] < 1000)
+      {
+        cout << vec[i][j] << "  ";
+      }
     }
     cout << endl;
   }
+  cout << endl;
 }
 
 void dodawanie(vector<vector<int>> &vec_A, vector<vector<int>> &vec_B, int liczba_wierszy, int liczba_kolumn)
@@ -188,6 +218,28 @@ void mnozenie_macierzy(vector<vector<int>> &vec_A, vector<vector<int>> &vec_B, i
     temp.clear();
   }
 }
+
+void dzialanie(int rodzaj_dzialania)
+{
+  rozmiar_macierzy(rodzaj_dzialania);
+  uzupelnianie_macierzy(macierzA, wA, kA, mA);
+  wyswietlanie_macierzy(macierzA);
+  uzupelnianie_macierzy(macierzB, wB, kB, mB);
+  wyswietlanie_macierzy(macierzB);
+  if (rodzaj_dzialania == 1)
+  {
+    dodawanie(macierzA, macierzB, wA, kA);
+  }
+  else if (rodzaj_dzialania == 2)
+  {
+    odejmowanie(macierzA, macierzB, wA, kA);
+  }
+  else if (rodzaj_dzialania == 3)
+  {
+    mnozenie_macierzy(macierzA, macierzB, wA, kB);
+  }
+  wyswietlanie_macierzy(macierzC);
+}
 int main(void)
 {
   cout << endl
@@ -203,31 +255,13 @@ int main(void)
     switch (wybor)
     {
     case 1:
-      rozmiar_macierzy(wybor);
-      uzupelnianie_macierzy(macierzA, wA, kA);
-      wyswietlanie_macierzy(macierzA);
-      uzupelnianie_macierzy(macierzB, wB, kB);
-      wyswietlanie_macierzy(macierzB);
-      dodawanie(macierzA, macierzB, wA, kA);
-      wyswietlanie_macierzy(macierzC);
+      dzialanie(wybor);
       break;
     case 2:
-      rozmiar_macierzy(wybor);
-      uzupelnianie_macierzy(macierzA, wA, kA);
-      wyswietlanie_macierzy(macierzA);
-      uzupelnianie_macierzy(macierzB, wB, kB);
-      wyswietlanie_macierzy(macierzB);
-      odejmowanie(macierzA, macierzB, wA, kA);
-      wyswietlanie_macierzy(macierzC);
+      dzialanie(wybor);
       break;
     case 3:
-      rozmiar_macierzy(wybor);
-      uzupelnianie_macierzy(macierzA, wA, kA);
-      wyswietlanie_macierzy(macierzA);
-      uzupelnianie_macierzy(macierzB, wB, kB);
-      wyswietlanie_macierzy(macierzB);
-      mnozenie_macierzy(macierzA, macierzB, wA, kB);
-      wyswietlanie_macierzy(macierzC);
+      dzialanie(wybor);
       break;
 
     default:
