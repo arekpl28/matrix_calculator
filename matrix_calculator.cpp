@@ -59,63 +59,82 @@ void menu()
   }
 }
 
-void wielkoscMacierzy(int liczba_w_k, string wier_kol)
+void wielkoscMacierzy(int liczba_w_k, string wier_kol, string a_czy_b)
 {
-  while (!std::cin.good())
+
+  while (liczba_w_k < 2 || liczba_w_k > 10 || !std::cin.good())
   {
     std::cin.clear();
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-    cout << "To nie jest liczba Całkowita!!! "
-         << "Proszę ponownie wpisac poprawna liczbe: " << endl;
-    cin >> liczba_w_k;
-    wA = liczba_w_k;
-    wB = liczba_w_k;
-  }
-  while (liczba_w_k < 2 || liczba_w_k > 10)
-  {
     cout << "------------------------------------" << endl;
     cout << "Podałes nieprawidlowa liczbe " + wier_kol + "!" << endl;
     cout << "Podaj liczbe " + wier_kol + " macierzy od 2 do 10: ";
     cin >> liczba_w_k;
-    wA = liczba_w_k;
-    wB = liczba_w_k;
+    if (a_czy_b == "wiersz")
+    {
+      wA = liczba_w_k;
+      wB = liczba_w_k;
+    }
+    if (a_czy_b == "kolumna")
+    {
+      kA = liczba_w_k;
+      kB = liczba_w_k;
+    }
+    if (a_czy_b == "wiersz_a")
+    {
+      wA = liczba_w_k;
+    }
+    if (a_czy_b == "kA_wB")
+    {
+      wB = liczba_w_k;
+      kA = liczba_w_k;
+    }
+    if (a_czy_b == "kolumna_b")
+    {
+      kB = liczba_w_k;
+    }
   }
 }
 
 void rozmiar_macierzy_A_B(int &wybor)
 {
+  string wiersz = "wiersz";
+  string kolumna = "kolumna";
+  string wiersz_a = "wiersz_a";
+  string kA_wB = "kA_wB";
+  string kolumna_b = "kolumna_b";
   if (wybor == 1 || wybor == 2)
   {
     cout << "Podaj liczbe wierszy macierzy A i B od 2 do 10: ";
     cin >> wA;
     wB = wA;
-    wielkoscMacierzy(wA, wierszy_str);
+    wielkoscMacierzy(wA, wierszy_str, wiersz);
     cout << "Podaj liczbe kolumn macierzy A i B od 2 do 10: ";
     cin >> kA;
     kB = kA;
-    wielkoscMacierzy(kA, kolumn_str);
+    wielkoscMacierzy(kA, kolumn_str, kolumna);
   }
   else if (wybor == 3)
   {
     cout << "Podaj liczbe wierszy macierzy A od 2 do 10: ";
     cin >> wA;
-    wielkoscMacierzy(wA, wierszy_str);
+    wielkoscMacierzy(wA, wierszy_str, wiersz_a);
     cout << "Podaj liczbe kolumn macierzy A oraz wierszy macierzy B od 2 do 10: ";
     cin >> kA;
     wB = kA;
-    wielkoscMacierzy(kA, kolumn_str);
+    wielkoscMacierzy(kA, kolumn_str, kA_wB);
     cout << "Podaj liczbe kolumn macierzy B od 2 do 10: ";
     cin >> kB;
-    wielkoscMacierzy(kB, kolumn_str);
+    wielkoscMacierzy(kB, kolumn_str, kolumna_b);
   }
   else if (wybor == 4)
   {
     cout << "Podaj liczbe wierszy macierzy A od 2 do 10: ";
     cin >> wA;
-    wielkoscMacierzy(wA, wierszy_str);
+    wielkoscMacierzy(wA, wierszy_str, wiersz);
     cout << "Podaj liczbe kolumn macierzy A od 2 do 10: ";
     cin >> kA;
-    wielkoscMacierzy(kA, kolumn_str);
+    wielkoscMacierzy(kA, kolumn_str, wiersz);
     cout << "Podaj liczbe przez ktora chcesz pomozyc macierz: ";
     cin >> mnoznik;
   }
