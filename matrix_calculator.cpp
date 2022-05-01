@@ -137,6 +137,15 @@ void rozmiar_macierzy_A_B(int &wybor)
     wielkoscMacierzy(kA, kolumn_str, wiersz);
     cout << "Podaj liczbe przez ktora chcesz pomozyc macierz: ";
     cin >> mnoznik;
+    while (!std::cin.good())
+    {
+      std::cin.clear();
+      std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+      cout << "------------------------------------" << endl;
+      cout << "Podałes nieprawidlowa liczbe!" << endl;
+      cout << "Podaj liczbe ponownie: ";
+      cin >> mnoznik;
+    }
   }
 }
 
