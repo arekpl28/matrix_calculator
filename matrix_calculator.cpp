@@ -4,6 +4,7 @@
 #include <iomanip>
 #include <string>
 #include <vector>
+#include <limits>
 using namespace std;
 
 #define SMAX 10
@@ -24,7 +25,6 @@ void blad_wybory()
   {
     blad_wybory();
   }
-
   cout << endl;
 }
 
@@ -46,6 +46,13 @@ void menu()
   cout << "Wybierz rodzaj dzialania: ";
   cin >> wybor;
   cout << endl;
+  while (!std::cin.good())
+  {
+    std::cin.clear();
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    cout << "Brak podanego działania! Prosze wybrac inny:  ";
+    cin >> wybor;
+  }
   if (wybor < 0 || wybor > 4)
   {
     blad_wybory();
@@ -54,6 +61,16 @@ void menu()
 
 void wielkoscMacierzy(int liczba_w_k, string wier_kol)
 {
+  while (!std::cin.good())
+  {
+    std::cin.clear();
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    cout << "To nie jest liczba Całkowita!!! "
+         << "Proszę ponownie wpisac poprawna liczbe: " << endl;
+    cin >> liczba_w_k;
+    wA = liczba_w_k;
+    wB = liczba_w_k;
+  }
   while (liczba_w_k < 2 || liczba_w_k > 10)
   {
     cout << "------------------------------------" << endl;
@@ -126,12 +143,21 @@ void uzupelnianie_macierzy(vector<vector<int>> &vec, int liczba_wierszy, int lic
   vector<int> temp;
   temp.clear();
   vec.clear();
+
   for (int i = 0; i < liczba_wierszy; i++)
   {
     int liczba;
     for (int j = 0; j < liczba_kolumn; j++)
     {
       cin >> liczba;
+      while (!std::cin.good())
+      {
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        cout << "To nie jest liczba Całkowita!!! "
+             << "Proszę ponownie wpisac poprawna liczbe: " << endl;
+        cin >> liczba;
+      }
       if (max_liczba_A_B < liczba)
       {
         max_liczba_A_B = liczba;
@@ -238,7 +264,7 @@ void odejmowanie(int liczba_wierszy, int liczba_kolumn)
     temp.clear();
   }
 }
-void mnozenie_macierzy(int liczba_wierszy_A, int liczba_kolumn_A, int liczba_wierszy_B, int liczba_kolumn_B)
+void mnozenie_macierzy(int liczba_wierszy_A, int liczba_wierszy_B, int liczba_kolumn_B)
 {
   cout << "Iloczyn macierzy: " << endl;
   int suma = 0;
@@ -307,7 +333,7 @@ void dzialanie(int rodzaj_dzialania)
   }
   else if (rodzaj_dzialania == 3)
   {
-    mnozenie_macierzy(wA, kA, wB, kB);
+    mnozenie_macierzy(wA, wB, kB);
   }
   else if (rodzaj_dzialania == 4)
   {
