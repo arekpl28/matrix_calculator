@@ -12,13 +12,24 @@ vector<vector<int>> macierzA;
 vector<vector<int>> macierzB;
 vector<vector<int>> macierzC;
 
-int wybor, max_liczba_A_B = 0;
+int wybor, max_liczba_A_B = 0, min_liczba_A_B = 0, mnoznik = 0;
 string mA = "A", mB = "B", wierszy_str = "wierszy", kolumn_str = "kolumn";
 int wA = 0, kA = 0, wB = 0, kB = 0, wC = 0, kC = 0;
 
+void blad_wybory()
+{
+  cout << "Brak podanego działania! Prosze wybrac inny:  ";
+  cin >> wybor;
+  if (wybor < 0 || wybor > 4)
+  {
+    blad_wybory();
+  }
+
+  cout << endl;
+}
+
 void menu()
 {
-
   cout << " ________________  MENU  ________________ " << endl
        << "|                                        |"
        << endl;
@@ -37,9 +48,7 @@ void menu()
   cout << endl;
   if (wybor < 0 || wybor > 4)
   {
-    cout << "Brak podanego działania! Prosze wybrac inny:  ";
-    cin >> wybor;
-    cout << endl;
+    blad_wybory();
   }
 }
 
@@ -82,6 +91,17 @@ void rozmiar_macierzy_A_B(int &wybor)
     cin >> kB;
     wielkoscMacierzy(kB, kolumn_str);
   }
+  else if (wybor == 4)
+  {
+    cout << "Podaj liczbe wierszy macierzy A od 2 do 10: ";
+    cin >> wA;
+    wielkoscMacierzy(wA, wierszy_str);
+    cout << "Podaj liczbe kolumn macierzy A od 2 do 10: ";
+    cin >> kA;
+    wielkoscMacierzy(kA, kolumn_str);
+    cout << "Podaj liczbe przez ktora chcesz pomozyc macierz: ";
+    cin >> mnoznik;
+  }
 }
 
 void rozmiar_macierzy(int wybor_dzialanie)
@@ -91,6 +111,10 @@ void rozmiar_macierzy(int wybor_dzialanie)
     rozmiar_macierzy_A_B(wybor);
   }
   else if (wybor_dzialanie == 3)
+  {
+    rozmiar_macierzy_A_B(wybor);
+  }
+  else if (wybor_dzialanie == 4)
   {
     rozmiar_macierzy_A_B(wybor);
   }
@@ -112,7 +136,6 @@ void uzupelnianie_macierzy(vector<vector<int>> &vec, int liczba_wierszy, int lic
       {
         max_liczba_A_B = liczba;
       }
-
       temp.push_back(liczba);
     }
     vec.push_back(temp);
@@ -127,8 +150,17 @@ void wyswietlanie_macierzy(vector<vector<int>> &vec)
   {
     for (int j = 0; j < vec[i].size(); j++)
     {
-      if (max_liczba_A_B < 10)
+      if (vec[i][j] < 0)
       {
+        cout << vec[i][j] << " ";
+      }
+
+      else if (max_liczba_A_B < 10 && max_liczba_A_B > 0)
+      {
+        if (min_liczba_A_B < 0)
+        {
+          cout << " ";
+        }
         cout << vec[i][j] << "  ";
       }
       else if (max_liczba_A_B > 9 && max_liczba_A_B < 100 && vec[i][j] < 10)
@@ -154,10 +186,11 @@ void wyswietlanie_macierzy(vector<vector<int>> &vec)
     }
     cout << endl;
   }
+  max_liczba_A_B = 0;
   cout << endl;
 }
 
-void dodawanie(vector<vector<int>> &vec_A, vector<vector<int>> &vec_B, int liczba_wierszy, int liczba_kolumn)
+void dodawanie(int liczba_wierszy, int liczba_kolumn)
 {
   cout << "Suma macierzy: " << endl;
   int suma = 0;
@@ -168,15 +201,18 @@ void dodawanie(vector<vector<int>> &vec_A, vector<vector<int>> &vec_B, int liczb
   {
     for (int j = 0; j < liczba_kolumn; j++)
     {
-      suma = vec_A[i][j] + vec_B[i][j];
-
+      suma = macierzA[i][j] + macierzB[i][j];
+      if (max_liczba_A_B < suma)
+      {
+        max_liczba_A_B = suma;
+      }
       temp.push_back(suma);
     }
     macierzC.push_back(temp);
     temp.clear();
   }
 }
-void odejmowanie(vector<vector<int>> &vec_A, vector<vector<int>> &vec_B, int liczba_wierszy, int liczba_kolumn)
+void odejmowanie(int liczba_wierszy, int liczba_kolumn)
 {
   cout << "Roznica macierzy: " << endl;
   int suma = 0;
@@ -187,17 +223,50 @@ void odejmowanie(vector<vector<int>> &vec_A, vector<vector<int>> &vec_B, int lic
   {
     for (int j = 0; j < liczba_kolumn; j++)
     {
-      suma = vec_A[i][j] - vec_B[i][j];
-
+      suma = macierzA[i][j] - macierzB[i][j];
+      if (max_liczba_A_B < suma)
+      {
+        max_liczba_A_B = suma;
+      }
+      else if (min_liczba_A_B > suma)
+      {
+        min_liczba_A_B = suma;
+      }
       temp.push_back(suma);
     }
     macierzC.push_back(temp);
     temp.clear();
   }
 }
-void mnozenie_macierzy(vector<vector<int>> &vec_A, vector<vector<int>> &vec_B, int liczba_wierszy, int liczba_kolumn)
+void mnozenie_macierzy(int liczba_wierszy_A, int liczba_kolumn_A, int liczba_wierszy_B, int liczba_kolumn_B)
 {
   cout << "Iloczyn macierzy: " << endl;
+  int suma = 0;
+  vector<int> temp;
+  macierzC.clear();
+  temp.clear();
+  for (int i = 0; i < liczba_wierszy_A; i++)
+  {
+    for (int j = 0; j < liczba_kolumn_B; j++)
+    {
+      suma = 0;
+      for (int k = 0; k < liczba_wierszy_B; k++)
+      {
+        suma += macierzA[i][k] * macierzB[k][j];
+        if (max_liczba_A_B < suma)
+        {
+          max_liczba_A_B = suma;
+        }
+      }
+      temp.push_back(suma);
+    }
+    macierzC.push_back(temp);
+    temp.clear();
+  }
+}
+void mnozenie_przez_liczbe(int liczba_wierszy, int liczba_kolumn)
+{
+  cout << "Macierz pomnozona przez liczbe: " << mnoznik << endl;
   int suma = 0;
   vector<int> temp;
   macierzC.clear();
@@ -207,36 +276,42 @@ void mnozenie_macierzy(vector<vector<int>> &vec_A, vector<vector<int>> &vec_B, i
     for (int j = 0; j < liczba_kolumn; j++)
     {
       suma = 0;
-      for (int k = 0; k < liczba_kolumn; k++)
-      {
-
-        suma += macierzA[i][k] * macierzB[k][j];
-      }
+      suma = macierzA[i][j] * mnoznik;
       temp.push_back(suma);
+      if (max_liczba_A_B < suma)
+      {
+        max_liczba_A_B = suma;
+      }
     }
     macierzC.push_back(temp);
     temp.clear();
   }
 }
-
 void dzialanie(int rodzaj_dzialania)
 {
   rozmiar_macierzy(rodzaj_dzialania);
   uzupelnianie_macierzy(macierzA, wA, kA, mA);
   wyswietlanie_macierzy(macierzA);
-  uzupelnianie_macierzy(macierzB, wB, kB, mB);
-  wyswietlanie_macierzy(macierzB);
+  if (rodzaj_dzialania != 4)
+  {
+    uzupelnianie_macierzy(macierzB, wB, kB, mB);
+    wyswietlanie_macierzy(macierzB);
+  }
   if (rodzaj_dzialania == 1)
   {
-    dodawanie(macierzA, macierzB, wA, kA);
+    dodawanie(wA, kA);
   }
   else if (rodzaj_dzialania == 2)
   {
-    odejmowanie(macierzA, macierzB, wA, kA);
+    odejmowanie(wA, kA);
   }
   else if (rodzaj_dzialania == 3)
   {
-    mnozenie_macierzy(macierzA, macierzB, wA, kB);
+    mnozenie_macierzy(wA, kA, wB, kB);
+  }
+  else if (rodzaj_dzialania == 4)
+  {
+    mnozenie_przez_liczbe(wA, kA);
   }
   wyswietlanie_macierzy(macierzC);
 }
@@ -248,7 +323,6 @@ int main(void)
   cout << "*          KALKULATOR MACIERZY          *" << endl;
   cout << "*****************************************" << endl;
   cout << endl;
-
   do
   {
     menu();
@@ -263,7 +337,9 @@ int main(void)
     case 3:
       dzialanie(wybor);
       break;
-
+    case 4:
+      dzialanie(wybor);
+      break;
     default:
       break;
     }
