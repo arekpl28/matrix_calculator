@@ -1,3 +1,4 @@
+#pragma once
 #include <iostream>
 #include <cstdlib>
 #include <cmath>
@@ -7,7 +8,17 @@
 #include <limits>
 using namespace std;
 
-#define SMAX 10
+void NazwaProgramu();
+
+void NazwaProgramu()
+{
+  cout << endl
+       << endl;
+  cout << "*****************************************" << endl;
+  cout << "*          KALKULATOR MACIERZY          *" << endl;
+  cout << "*****************************************" << endl;
+  cout << endl;
+}
 
 vector<vector<int>> macierzA;
 vector<vector<int>> macierzB;
@@ -368,35 +379,4 @@ void dzialanie(int rodzaj_dzialania)
     mnozenie_przez_liczbe(wA, kA);
   }
   wyswietlanie_macierzy(macierzC);
-}
-int main(void)
-{
-  cout << endl
-       << endl;
-  cout << "*****************************************" << endl;
-  cout << "*          KALKULATOR MACIERZY          *" << endl;
-  cout << "*****************************************" << endl;
-  cout << endl;
-  do
-  {
-    menu();
-    switch (wybor)
-    {
-    case 1:
-      dzialanie(wybor);
-      break;
-    case 2:
-      dzialanie(wybor);
-      break;
-    case 3:
-      dzialanie(wybor);
-      break;
-    case 4:
-      dzialanie(wybor);
-      break;
-    default:
-      break;
-    }
-  } while (wybor != 0);
-  return 0;
 }
